@@ -3,7 +3,13 @@ import type { PageServerLoad } from "../$types";
 import { getFriendList } from "../../lib/services/steam.service";
 
 export const load: PageServerLoad = async () => {
-  const friendList = await getFriendList(MY_STEAM_ID);
-
-  return { friendList };
+  try {
+    const friendList = await getFriendList(MY_STEAM_ID);
+    return { friendList, error: null };
+  } catch {
+    return {
+      friendList: [],
+      error: "Não foi possível carregar a lista de amigos.",
+    };
+  }
 };

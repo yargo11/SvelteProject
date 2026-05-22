@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { invalidateAll } from "$app/navigation";
+  import ErrorState from "$lib/components/ui/ErrorState.svelte";
+  import LoadingSpinner from "$lib/components/ui/LoadingSpinner.svelte";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
@@ -19,6 +22,14 @@
     linux: "🐧",
   };
 
+  let loading = $state(false);
+
+  async function retry() {
+    loading = true;
+    await invalidateAll();
+    loading = false;
+  }
+
   function minutesToHours(minutes: number): string {
     const h = Math.floor(minutes / 60);
     const m = minutes % 60;
@@ -34,7 +45,11 @@
   }
 </script>
 
-{#if game}
+{#if loading}
+  <LoadingSpinner />
+{:else if data.error}
+  <ErrorState message={data.error} onRetry={retry} />
+{:else if game}
   <!-- Hero -->
   <div
     class="relative w-full h-72 bg-cover bg-center rounded-xl overflow-hidden mb-8"
@@ -275,7 +290,14 @@
     {/if}
   </div>
 {:else}
-  <div class="flex items-center justify-center h-64 text-foreground/50">
+  <div class="flex flex-col items-center justify-center gap-4 h-64 text-foreground/50">
+    <span class="text-4xl">🎮</span>
     <p>Jogo não encontrado.</p>
+    <button
+      onclick={retry}
+      class="px-5 py-2 bg-primary text-background rounded-lg font-semibold hover:opacity-90 transition-opacity"
+    >
+      Tentar novamente
+    </button>
   </div>
 {/if}

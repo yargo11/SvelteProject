@@ -52,94 +52,55 @@ export async function getSteamNews(
   count: number = 3,
   maxLength: number = 300,
 ) {
-  try {
-    const data = await fetchSteam<SteamNewsResponse>(
-      `ISteamNews/GetNewsForApp/v0002/?appid=${appId}&count=${count}&maxlength=${maxLength}&format=json`,
-    );
-
-    return data.appnews?.newsitems ?? [];
-  } catch (error) {
-    console.error("Error fetching Steam news:", error);
-    return [];
-  }
+  const data = await fetchSteam<SteamNewsResponse>(
+    `ISteamNews/GetNewsForApp/v0002/?appid=${appId}&count=${count}&maxlength=${maxLength}&format=json`,
+  );
+  return data.appnews?.newsitems ?? [];
 }
 
 export async function getPlayerSummaries(steamId: string) {
-  try {
-    const data = await fetchSteam<PlayerSummaryResponse>(
-      `ISteamUser/GetPlayerSummaries/v0002/?key=${key}&steamids=${steamId}`,
-    );
-
-    return data.response?.players ?? [];
-  } catch (error) {
-    console.error("Error fetching Steam player summaries:", error);
-    return [];
-  }
+  const data = await fetchSteam<PlayerSummaryResponse>(
+    `ISteamUser/GetPlayerSummaries/v0002/?key=${key}&steamids=${steamId}`,
+  );
+  return data.response?.players ?? [];
 }
 
 export async function getOwnedGames(steamId: string) {
-  try {
-    const data = await fetchSteam<OwnedGamesResponse>(
-      `IPlayerService/GetOwnedGames/v0001/?key=${key}&steamid=${steamId}&include_appinfo=true&format=json`,
-    );
-    return data.response?.games ?? [];
-  } catch (error) {
-    console.error("Error fetching Steam owned games:", error);
-    return [];
-  }
+  const data = await fetchSteam<OwnedGamesResponse>(
+    `IPlayerService/GetOwnedGames/v0001/?key=${key}&steamid=${steamId}&include_appinfo=true&format=json`,
+  );
+  return data.response?.games ?? [];
 }
 
 export async function getRecentlyPlayedGames(steamId: string) {
-  try {
-    const data = await fetchSteam<RecentlyPlayedGamesResponse>(
-      `IPlayerService/GetRecentlyPlayedGames/v0001/?key=${key}&steamid=${steamId}&format=json`,
-    );
-    return data.response?.games ?? [];
-  } catch (error) {
-    console.error("Error fetching Steam recently played games:", error);
-    return [];
-  }
+  const data = await fetchSteam<RecentlyPlayedGamesResponse>(
+    `IPlayerService/GetRecentlyPlayedGames/v0001/?key=${key}&steamid=${steamId}&format=json`,
+  );
+  return data.response?.games ?? [];
 }
 
 export async function getFriendList(steamId: string) {
-  try {
-    const data = await fetchSteam<FriendListResponse>(
-      `ISteamUser/GetFriendList/v0001/?key=${key}&steamid=${steamId}&relationship=friend&format=json`,
-    );
-    return data.friendslist?.friends ?? [];
-  } catch (error) {
-    console.error("Error fetching Steam friend list:", error);
-    return [];
-  }
+  const data = await fetchSteam<FriendListResponse>(
+    `ISteamUser/GetFriendList/v0001/?key=${key}&steamid=${steamId}&relationship=friend&format=json`,
+  );
+  return data.friendslist?.friends ?? [];
 }
 
 export async function getGameDetails(
   appId: number,
 ): Promise<SteamAppDetailResponse | null> {
-  try {
-    const response = await fetch(
-      `https://store.steampowered.com/api/appdetails?appids=${appId}`,
-      { cache: "no-store" },
-    );
-    const data = (await response.json()) as Record<
-      number,
-      SteamAppDetailResponse
-    >;
-    return data[appId] ?? null;
-  } catch (error) {
-    console.error("Error fetching Steam game details:", error);
-    return null;
-  }
+  const response = await fetch(
+    `https://store.steampowered.com/api/appdetails?appids=${appId}`,
+    { cache: "no-store" },
+  );
+  if (!response.ok) throw new SteamApiError(response.status, `appdetails?appids=${appId}`);
+  const data = (await response.json()) as Record<number, SteamAppDetailResponse>;
+  return data[appId] ?? null;
 }
 
 export async function getPlayerAchievements(steamId: string, appId: number) {
-  try {
-    const data = await fetchSteam<PlayerAchievementsResponse>(
-      `ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${key}&steamid=${steamId}`,
-    );
-    return data.playerstats ?? null;
-  } catch (error) {
-    console.error("Error fetching player achievements:", error);
-    return null;
-  }
+  const data = await fetchSteam<PlayerAchievementsResponse>(
+    `ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${key}&steamid=${steamId}`,
+  );
+  return data.playerstats ?? null;
 }
