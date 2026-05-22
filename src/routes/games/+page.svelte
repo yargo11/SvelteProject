@@ -1,6 +1,6 @@
 <script lang="ts">
+  import { GAME_COVER } from "$lib/endpoints";
   import type { PageProps } from "./$types";
-  import { games } from "../../stores/games";
 
   let { data }: PageProps = $props();
 
@@ -25,17 +25,20 @@
       bind:value={gameFilter}
     />
   </div>
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
     {#if !loading}
-      {#each $games as game}
+      {#each data.ownedGames as game}
         {#if game.name.toLowerCase().includes(gameFilter.toLowerCase())}
-          <a href="/games/{game.id}">
+          <a href="/games/{game.appid}">
             <div class="rounded-lg bg-surface text-primary w-fit">
-              <img src={game.cover} alt={game.name} class="rounded-t-lg" />
+              <img
+                src={`${GAME_COVER}${game.appid}/header.jpg`}
+                alt={game.name}
+                class="rounded-t-lg"
+              />
               <div class="p-4">
-                <p class="text-lg">
-                  {game.name} - {game.studio}
-                  {game.favorite ? "❤️" : "♡"}
+                <p class="text-md font-semibold">
+                  {game.name.slice(0, 30)}{game.name.length > 30 ? "..." : ""}
                 </p>
               </div>
             </div>

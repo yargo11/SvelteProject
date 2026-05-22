@@ -1,8 +1,10 @@
 import type {
   FriendListResponse,
   OwnedGamesResponse,
+  PlayerAchievementsResponse,
   PlayerSummaryResponse,
   RecentlyPlayedGamesResponse,
+  SteamAppDetailResponse,
   SteamNewsResponse,
 } from "$lib/types";
 
@@ -108,5 +110,36 @@ export async function getFriendList(steamId: string) {
   } catch (error) {
     console.error("Error fetching Steam friend list:", error);
     return [];
+  }
+}
+
+export async function getGameDetails(
+  appId: number,
+): Promise<SteamAppDetailResponse | null> {
+  try {
+    const response = await fetch(
+      `https://store.steampowered.com/api/appdetails?appids=${appId}`,
+      { cache: "no-store" },
+    );
+    const data = (await response.json()) as Record<
+      number,
+      SteamAppDetailResponse
+    >;
+    return data[appId] ?? null;
+  } catch (error) {
+    console.error("Error fetching Steam game details:", error);
+    return null;
+  }
+}
+
+export async function getPlayerAchievements(steamId: string, appId: number) {
+  try {
+    const data = await fetchSteam<PlayerAchievementsResponse>(
+      `ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${key}&steamid=${steamId}`,
+    );
+    return data.playerstats ?? null;
+  } catch (error) {
+    console.error("Error fetching player achievements:", error);
+    return null;
   }
 }
