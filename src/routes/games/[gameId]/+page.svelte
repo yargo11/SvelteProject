@@ -63,7 +63,7 @@
       />
       <div>
         <h1 class="text-3xl font-bold text-white">{game.name}</h1>
-        <p class="text-sm text-gray-300 mt-1">
+        <p class="text-sm text-white/70 mt-1">
           {game.developers.join(", ")} &bull; {game.release_date.date}
         </p>
       </div>
@@ -73,35 +73,35 @@
   <div class="flex flex-col gap-8">
     <!-- User stats -->
     {#if owned}
-      <div class="bg-surface rounded-xl p-6">
+      <div class="bg-surface border border-border rounded-xl p-6">
         <h2 class="text-base font-bold mb-4">Suas Estatísticas</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
           <div>
-            <p class="text-2xl font-bold text-primary">
+            <p class="text-2xl font-bold text-accent">
               {minutesToHours(owned.playtime_forever)}
             </p>
-            <p class="text-xs text-foreground/50 mt-1">Tempo total</p>
+            <p class="text-xs text-muted mt-1">Tempo total</p>
           </div>
           {#if recent}
             <div>
-              <p class="text-2xl font-bold text-primary">
+              <p class="text-2xl font-bold text-accent">
                 {minutesToHours(recent.playtime_2weeks)}
               </p>
-              <p class="text-xs text-foreground/50 mt-1">Últimas 2 semanas</p>
+              <p class="text-xs text-muted mt-1">Últimas 2 semanas</p>
             </div>
           {/if}
           <div>
-            <p class="text-2xl font-bold text-primary">
+            <p class="text-2xl font-bold text-accent">
               {minutesToHours(owned.playtime_windows_forever)}
             </p>
-            <p class="text-xs text-foreground/50 mt-1">No Windows</p>
+            <p class="text-xs text-muted mt-1">No Windows</p>
           </div>
           {#if owned.rtime_last_played}
             <div>
-              <p class="text-lg font-bold text-primary">
+              <p class="text-lg font-bold text-accent">
                 {formatTimestamp(owned.rtime_last_played)}
               </p>
-              <p class="text-xs text-foreground/50 mt-1">Última vez jogado</p>
+              <p class="text-xs text-muted mt-1">Última vez jogado</p>
             </div>
           {/if}
         </div>
@@ -111,19 +111,25 @@
     <!-- Summary row -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <!-- Description + tags -->
-      <div class="md:col-span-2 bg-surface rounded-xl p-6 flex flex-col gap-4">
-        <p class="text-base leading-relaxed">{game.short_description}</p>
+      <div
+        class="md:col-span-2 bg-surface border border-border rounded-xl p-6 flex flex-col gap-4"
+      >
+        <p class="text-base leading-relaxed text-foreground">
+          {game.short_description}
+        </p>
 
         <div class="flex flex-wrap gap-2">
           {#each game.genres as genre}
             <span
-              class="px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold"
+              class="px-3 py-1 rounded-full bg-primary-dim text-primary text-xs font-semibold border border-primary/20"
             >
               {genre.description}
             </span>
           {/each}
           {#each game.categories.slice(0, 5) as cat}
-            <span class="px-3 py-1 rounded-full bg-foreground/10 text-xs">
+            <span
+              class="px-3 py-1 rounded-full bg-surface-alt border border-border text-xs text-muted"
+            >
               {cat.description}
             </span>
           {/each}
@@ -131,13 +137,13 @@
       </div>
 
       <!-- Info card -->
-      <div class="bg-surface rounded-xl p-6 flex flex-col gap-3 text-sm">
+      <div
+        class="bg-surface border border-border rounded-xl p-6 flex flex-col gap-3 text-sm"
+      >
         <div>
-          <p class="text-foreground/50 text-xs uppercase font-semibold mb-1">
-            Preço
-          </p>
+          <p class="text-muted text-xs uppercase font-semibold mb-1">Preço</p>
           {#if game.is_free}
-            <p class="text-primary font-bold text-lg">Gratuito</p>
+            <p class="text-success font-bold text-lg">Gratuito</p>
           {:else}
             <p class="font-bold text-lg">
               {game.price_overview?.final_formatted ?? "—"}
@@ -146,21 +152,21 @@
         </div>
 
         <div>
-          <p class="text-foreground/50 text-xs uppercase font-semibold mb-1">
+          <p class="text-muted text-xs uppercase font-semibold mb-1">
             Desenvolvedor
           </p>
           <p>{game.developers.join(", ")}</p>
         </div>
 
         <div>
-          <p class="text-foreground/50 text-xs uppercase font-semibold mb-1">
+          <p class="text-muted text-xs uppercase font-semibold mb-1">
             Publicador
           </p>
           <p>{game.publishers.join(", ")}</p>
         </div>
 
         <div>
-          <p class="text-foreground/50 text-xs uppercase font-semibold mb-1">
+          <p class="text-muted text-xs uppercase font-semibold mb-1">
             Plataformas
           </p>
           <div class="flex gap-2 text-base">
@@ -173,17 +179,17 @@
         </div>
 
         <div>
-          <p class="text-foreground/50 text-xs uppercase font-semibold mb-1">
+          <p class="text-muted text-xs uppercase font-semibold mb-1">
             Recomendações
           </p>
           <p>👍 {game.recommendations.total.toLocaleString()}</p>
         </div>
 
         <div>
-          <p class="text-foreground/50 text-xs uppercase font-semibold mb-1">
+          <p class="text-muted text-xs uppercase font-semibold mb-1">
             Conquistas
           </p>
-          <p>🏆 {game.achievements.total}</p>
+          <p>🏆 {game.achievements?.total || 0}</p>
         </div>
 
         {#if game.website}
@@ -191,7 +197,7 @@
             href={game.website}
             target="_blank"
             rel="noopener noreferrer"
-            class="mt-auto text-center bg-primary text-white rounded-lg py-2 font-semibold hover:opacity-90 transition-opacity"
+            class="mt-auto text-center bg-primary text-background rounded-lg py-2 font-semibold hover:opacity-90 transition-opacity"
           >
             Site Oficial
           </a>
@@ -221,12 +227,12 @@
     <div>
       <h2 class="text-xl font-bold mb-3">Requisitos de Sistema (PC)</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="bg-surface rounded-xl p-5 text-sm">
-          <p class="font-semibold text-primary mb-2">Mínimos</p>
+        <div class="bg-surface border border-border rounded-xl p-5 text-sm">
+          <p class="font-semibold text-warning mb-2">Mínimos</p>
           {@html game.pc_requirements.minimum}
         </div>
-        <div class="bg-surface rounded-xl p-5 text-sm">
-          <p class="font-semibold text-primary mb-2">Recomendados</p>
+        <div class="bg-surface border border-border rounded-xl p-5 text-sm">
+          <p class="font-semibold text-success mb-2">Recomendados</p>
           {@html game.pc_requirements.recommended}
         </div>
       </div>
@@ -237,15 +243,15 @@
       <div>
         <div class="flex items-center justify-between mb-3">
           <h2 class="text-xl font-bold">Suas Conquistas</h2>
-          <span class="text-sm text-foreground/60">
+          <span class="text-sm text-muted">
             🏆 {unlockedAchievements.length} / {totalAchievements} desbloqueadas
           </span>
         </div>
 
         <!-- Progress bar -->
-        <div class="w-full bg-foreground/10 rounded-full h-2 mb-4">
+        <div class="w-full bg-border rounded-full h-2 mb-4">
           <div
-            class="bg-primary h-2 rounded-full transition-all"
+            class="bg-accent h-2 rounded-full transition-all"
             style={`width: ${totalAchievements > 0 ? (unlockedAchievements.length / totalAchievements) * 100 : 0}%`}
           ></div>
         </div>
@@ -253,15 +259,15 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           {#each playerStats.achievements as ach}
             <div
-              class="flex items-center gap-3 bg-surface rounded-xl p-3 {ach.achieved
-                ? 'opacity-100'
-                : 'opacity-40'}"
+              class="flex items-center gap-3 bg-surface border rounded-xl p-3 transition-colors {ach.achieved
+                ? 'border-accent/30 opacity-100'
+                : 'border-border opacity-40'}"
             >
               <span class="text-2xl">{ach.achieved ? "🏆" : "🔒"}</span>
               <div class="min-w-0">
                 <p class="text-sm font-semibold truncate">{ach.apiname}</p>
                 {#if ach.achieved && ach.unlocktime}
-                  <p class="text-xs text-foreground/50">
+                  <p class="text-xs text-muted">
                     {formatTimestamp(ach.unlocktime)}
                   </p>
                 {/if}
@@ -273,16 +279,18 @@
     {/if}
 
     <!-- Highlighted achievements (from store) -->
-    {#if game.achievements.highlighted.length > 0}
+    {#if game.achievements?.highlighted?.length > 0}
       <div>
         <h2 class="text-xl font-bold mb-3">Conquistas em Destaque</h2>
         <div class="flex flex-wrap gap-4">
-          {#each game.achievements.highlighted as ach}
+          {#each game.achievements?.highlighted ?? [] as ach}
             <div
-              class="flex flex-col items-center gap-1 bg-surface rounded-xl p-3 w-20"
+              class="flex flex-col items-center gap-1 bg-surface border border-border rounded-xl p-3 w-20 hover:border-primary/40 transition-colors"
             >
               <img src={ach.path} alt={ach.name} class="w-12 h-12" />
-              <p class="text-xs text-center leading-tight">{ach.name}</p>
+              <p class="text-xs text-center leading-tight text-muted">
+                {ach.name}
+              </p>
             </div>
           {/each}
         </div>
@@ -290,7 +298,7 @@
     {/if}
   </div>
 {:else}
-  <div class="flex flex-col items-center justify-center gap-4 h-64 text-foreground/50">
+  <div class="flex flex-col items-center justify-center gap-4 h-64 text-muted">
     <span class="text-4xl">🎮</span>
     <p>Jogo não encontrado.</p>
     <button

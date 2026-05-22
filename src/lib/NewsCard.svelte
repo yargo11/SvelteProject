@@ -30,7 +30,7 @@
   href={news.url}
   target="_blank"
   rel="noopener noreferrer"
-  class="flex gap-4 rounded w-full bg-[#1b2838] p-0 overflow-hidden hover:bg-[#2a3f5f] transition-colors"
+  class="flex gap-4 rounded-lg w-full bg-surface border border-border overflow-hidden hover:bg-surface-alt hover:border-primary/40 transition-colors"
 >
   {#if thumbnail}
     <img
@@ -39,15 +39,15 @@
       class="w-fit h-28 object-cover shrink-0"
     />
   {:else}
-    <div class="w-fit h-28 bg-[#0e1923] shrink-0"></div>
+    <div class="w-fit h-28 bg-background shrink-0"></div>
   {/if}
 
   <div class="flex flex-col justify-center gap-1 py-3 pr-4">
-    <h2 class="text-white font-bold text-base leading-snug">{news.title}</h2>
-    <p class="text-[#67c1f5] text-xs uppercase tracking-wide">
+    <h2 class="text-foreground font-bold text-base leading-snug">{news.title}</h2>
+    <p class="text-accent text-xs uppercase tracking-wide font-semibold">
       Atualização &nbsp;{formatDate(news.date)}
     </p>
-    <p class="text-[#8f98a0] text-sm line-clamp-2">
+    <p class="text-muted text-sm line-clamp-2">
       {stripMarkup(news.contents)}
     </p>
   </div>

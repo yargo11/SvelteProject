@@ -1,42 +1,98 @@
-# sv
+# Steam Dashboard com SvelteKit
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Projeto front-end com SvelteKit para consultar dados da Steam, exibindo noticias, perfil, biblioteca, amigos e detalhes de jogos a partir da Steam Web API.
 
-## Creating a project
+## O que o projeto faz
 
-If you're seeing this, you've probably already done this step. Congrats!
+- Exibe noticias de um jogo na pagina inicial.
+- Lista os jogos da biblioteca do usuario configurado.
+- Mostra detalhes de um jogo, incluindo descricao, preco, plataformas, screenshots e conquistas.
+- Consulta perfil publico por SteamID.
+- Lista amigos da conta configurada.
+- Permite alternar tema pela interface.
+- Trata de forma segura jogos sem conquistas ou sem estatisticas na Steam API, sem quebrar a aplicacao.
+
+## Tecnologias usadas
+
+- Svelte 5
+- SvelteKit 2
+- TypeScript
+- Vite
+- Tailwind CSS 4
+- Steam Web API
+
+## Requisitos
+
+- Node.js 20 ou superior
+- pnpm
+- Chave da Steam Web API
+- Um SteamID valido para consulta
+
+## Configuracao
+
+Instale as dependencias:
 
 ```sh
-# create a new project
-npx sv create my-app
+pnpm install
 ```
 
-To recreate this project with the same configuration:
+Depois de baixar o projeto, crie um arquivo `.env` na raiz com sua chave da API da Steam e o seu SteamID:
+
+```env
+STEAM_API_KEY=sua_chave_da_steam_api
+MY_STEAM_ID=seu_steamid
+```
+
+### Como obter os dados do `.env`
+
+- `STEAM_API_KEY`: gere sua chave no portal da Steam Web API.
+- `MY_STEAM_ID`: use o SteamID64 da conta que sera usada nas rotas de jogos e amigos.
+
+Sem essas variaveis, as paginas que dependem da Steam API nao vao carregar os dados corretamente.
+
+## Como rodar o projeto
+
+Inicie o servidor de desenvolvimento:
 
 ```sh
-# recreate this project
-pnpm dlx sv@0.15.3 create --template minimal --types ts --install pnpm firstProject
+pnpm dev
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Para abrir no navegador automaticamente:
 
 ```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+pnpm dev -- --open
 ```
 
-## Building
-
-To create a production version of your app:
+## Scripts disponiveis
 
 ```sh
-npm run build
+pnpm dev
+pnpm build
+pnpm preview
+pnpm check
+pnpm check:watch
 ```
 
-You can preview the production build with `npm run preview`.
+## Estrutura principal
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- `/`: noticias de um jogo consultadas pela Steam API.
+- `/games`: biblioteca de jogos da conta configurada.
+- `/games/[gameId]`: detalhes completos de um jogo.
+- `/games/favorites`: area reservada para jogos favoritos.
+- `/friends`: lista de amigos da conta configurada.
+- `/profile/[profileId]`: consulta de perfil publico por SteamID.
+
+## Build de producao
+
+Para gerar a versao de producao:
+
+```sh
+pnpm build
+```
+
+Para testar a build localmente:
+
+```sh
+pnpm preview
+```

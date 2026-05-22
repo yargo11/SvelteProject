@@ -189,7 +189,7 @@ export interface GameDetailResponse {
   };
   achievements: {
     total: number;
-    highlighted: {
+    highlighted?: {
       name: string;
       path: string;
     }[];
@@ -232,11 +232,18 @@ type PlayerAchievement = {
   unlocktime: number;
 };
 
+type PlayerStatsSuccess = {
+  steamID: string;
+  gameName: string;
+  achievements: PlayerAchievement[];
+  success: true;
+};
+
+type PlayerStatsError = {
+  error: string;
+  success: false;
+};
+
 export interface PlayerAchievementsResponse {
-  playerstats: {
-    steamID: string;
-    gameName: string;
-    achievements: PlayerAchievement[];
-    success: boolean;
-  };
+  playerstats: PlayerStatsSuccess | PlayerStatsError;
 }

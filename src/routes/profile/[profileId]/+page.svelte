@@ -70,7 +70,7 @@
     {:else}
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {#each data.ownedGames as game}
-          <div class="flex flex-row items-center gap-2 p-4 border rounded bg-surface">
+          <div class="flex flex-row items-center gap-2 p-4 border border-border rounded bg-surface">
             <img
               src={`${url_img}${game.appid}/${game.img_icon_url}.jpg`}
               alt={game.name}

@@ -102,5 +102,11 @@ export async function getPlayerAchievements(steamId: string, appId: number) {
   const data = await fetchSteam<PlayerAchievementsResponse>(
     `ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${key}&steamid=${steamId}`,
   );
-  return data.playerstats ?? null;
+
+  const playerStats = data.playerstats;
+  if (!playerStats?.success || !("achievements" in playerStats)) {
+    return null;
+  }
+
+  return playerStats;
 }

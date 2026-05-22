@@ -24,7 +24,7 @@
     <EmptyState message="Nenhum amigo encontrado." icon="👥" />
   {:else}
     {#each data.friendList as friend}
-      <div class="flex flex-col gap-3 border p-4 rounded-lg bg-gray-800">
+      <div class="flex flex-col gap-3 border border-border p-4 rounded-lg bg-surface">
         <h2 class="text-xl font-bold">{friend.steamid}</h2>
         <p>{new Date(friend.friend_since * 1000).toLocaleString()}</p>
       </div>

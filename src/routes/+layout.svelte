@@ -18,12 +18,12 @@
   <link rel="icon" href={favicon} />
 </svelte:head>
 
-<nav class="flex flex-row justify-between items-center gap-1 p-1 bg-primary">
+<nav class="flex flex-row justify-between items-center gap-1 p-1 bg-surface border-b border-border">
   <div class="flex flex-row items-center gap-4">
     <MyButton name="Menu" onclick={() => (sidebarOpen = !sidebarOpen)} />
     <a
       href="/"
-      class="text-lg no-underline text-background hover:text-foreground"
+      class="text-lg no-underline text-primary hover:text-accent transition-colors"
     >
       HOME
     </a>
@@ -36,7 +36,7 @@
   <aside
     class="{sidebarOpen
       ? 'block'
-      : 'hidden'} md:block min-h-[calc(100vh-4rem)] w-64 bg-surface"
+      : 'hidden'} md:block min-h-[calc(100vh-4rem)] w-64 bg-surface border-r border-border"
   >
     <div id="ProfilePicture" class="relative p-4 flex flex-row">
       <video
@@ -64,44 +64,44 @@
         />
       </div>
       <div
-        class="flex flex-col px-2 relative z-10 bg-background/50 rounded-lg h-fit mt-auto mb-2"
+        class="flex flex-col px-2 relative z-10 bg-background/70 rounded-lg h-fit mt-auto mb-2"
       >
-        <h3 class="text-lg font-bold">Kyanchome</h3>
-        <h4 class="text-md">Yargo Valerio</h4>
+        <h3 class="text-lg font-bold text-foreground">Kyanchome</h3>
+        <h4 class="text-sm text-muted">Yargo Valerio</h4>
       </div>
     </div>
-    <hr class="my-4" />
-    <ul class="space-y-2">
+    <hr class="my-4 border-border" />
+    <ul class="space-y-1 px-2">
       <li>
         <a
           href="/profile/76561198057548002"
-          class="block rounded-lg px-3 py-2 text-primary hover:bg-background"
+          class="flex items-center gap-2 rounded-lg px-3 py-2 text-foreground hover:bg-primary-dim hover:text-primary transition-colors"
         >
-          Profile
+          👤 Profile
         </a>
       </li>
       <li>
         <a
           href="/games"
-          class="block rounded-lg px-3 py-2 text-primary hover:bg-background"
+          class="flex items-center gap-2 rounded-lg px-3 py-2 text-foreground hover:bg-primary-dim hover:text-primary transition-colors"
         >
-          Games
+          🎮 Games
         </a>
       </li>
       <li>
         <a
           href="/games/favorites"
-          class="block rounded-lg px-3 py-2 text-primary hover:bg-background"
+          class="flex items-center gap-2 rounded-lg px-3 py-2 text-foreground hover:bg-primary-dim hover:text-primary transition-colors"
         >
-          Favorite Games
+          ❤️ Favorite Games
         </a>
       </li>
       <li>
         <a
           href="/friends"
-          class="block rounded-lg px-3 py-2 text-primary hover:bg-background"
+          class="flex items-center gap-2 rounded-lg px-3 py-2 text-foreground hover:bg-primary-dim hover:text-primary transition-colors"
         >
-          Friends
+          👥 Friends
         </a>
       </li>
     </ul>

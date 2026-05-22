@@ -27,7 +27,7 @@
 <div>
   <div class="w-full mb-4">
     <input
-      class="bg-foreground rounded-lg w-full h-10 px-4"
+      class="bg-surface border border-border rounded-lg w-full h-10 px-4 text-foreground placeholder:text-muted focus:outline-none focus:border-primary transition-colors"
       placeholder="🔍 Pesquisar jogo..."
       bind:value={gameFilter}
     />
@@ -45,14 +45,14 @@
     <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
       {#each filteredGames as game}
         <a href="/games/{game.appid}">
-          <div class="rounded-lg bg-surface text-primary w-fit">
+          <div class="rounded-lg bg-surface border border-border text-foreground w-fit hover:border-primary/40 transition-colors">
             <img
               src={`${GAME_COVER}${game.appid}/header.jpg`}
               alt={game.name}
               class="rounded-t-lg"
             />
             <div class="p-4">
-              <p class="text-md font-semibold">
+              <p class="text-sm font-semibold text-foreground">
                 {game.name.slice(0, 30)}{game.name.length > 30 ? "..." : ""}
               </p>
             </div>
