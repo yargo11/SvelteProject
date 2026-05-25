@@ -1,7 +1,5 @@
-import {
-  getOwnedGames,
-  getPlayerSummaries,
-} from "../../../lib/services/steam.service";
+import { sortedGames } from "$lib/utils/games";
+import { getOwnedGames, getPlayerSummaries } from "$lib/services";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -13,15 +11,13 @@ export const load: PageServerLoad = async ({ params }) => {
       getOwnedGames(steamId),
     ]);
 
-    const sortedGames = ownedGames
-      .filter((game) => game.rtime_last_played && game.rtime_last_played > 0)
-      .sort((a, b) => (b.rtime_last_played ?? 0) - (a.rtime_last_played ?? 0));
+    const sortedGamesList = sortedGames(ownedGames);
 
-    return { playerSummary, ownedGames: sortedGames, error: null };
+    return { playerSummary, sortedGamesList, error: null };
   } catch {
     return {
       playerSummary: [],
-      ownedGames: [],
+      sortedGamesList: [],
       error: "Não foi possível carregar o perfil do jogador.",
     };
   }

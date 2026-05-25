@@ -1,4 +1,4 @@
-import { getSteamNews } from "../lib/services/steam.service";
+import { getSteamNews } from "$lib/services";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async () => {

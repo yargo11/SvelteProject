@@ -5,9 +5,12 @@ import {
   getPlayerAchievements,
   getPlayerSummaries,
   getSteamNews,
-} from "./steam.service";
+} from "$lib/services";
 
-function mockJsonResponse(body: unknown, init: { ok?: boolean; status?: number } = {}) {
+function mockJsonResponse(
+  body: unknown,
+  init: { ok?: boolean; status?: number } = {},
+) {
   return {
     ok: init.ok ?? true,
     status: init.status ?? 200,
@@ -38,7 +41,9 @@ describe("steam.service", () => {
 
     const fetchMock = vi
       .spyOn(globalThis, "fetch")
-      .mockResolvedValue(mockJsonResponse({ appnews: { newsitems: [newsItem] } }));
+      .mockResolvedValue(
+        mockJsonResponse({ appnews: { newsitems: [newsItem] } }),
+      );
 
     await expect(getSteamNews(2073850, 1, 120)).resolves.toEqual([newsItem]);
     expect(fetchMock).toHaveBeenCalledWith(
@@ -61,7 +66,9 @@ describe("steam.service", () => {
       mockJsonResponse({ response: { games: [ownedGame] } }),
     );
 
-    await expect(getOwnedGames("76561198000000000")).resolves.toEqual([ownedGame]);
+    await expect(getOwnedGames("76561198000000000")).resolves.toEqual([
+      ownedGame,
+    ]);
     expect(globalThis.fetch).toHaveBeenCalledWith(
       expect.stringContaining("include_appinfo=true"),
       expect.any(Object),
@@ -126,6 +133,8 @@ describe("steam.service", () => {
       }),
     );
 
-    await expect(getPlayerAchievements("76561198057548002", 1962700)).resolves.toBeNull();
+    await expect(
+      getPlayerAchievements("76561198057548002", 1962700),
+    ).resolves.toBeNull();
   });
 });

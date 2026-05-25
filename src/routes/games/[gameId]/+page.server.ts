@@ -4,7 +4,7 @@ import {
   getOwnedGames,
   getPlayerAchievements,
   getRecentlyPlayedGames,
-} from "../../../lib/services/steam.service";
+} from "$lib/services";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params }) => {

@@ -2,6 +2,7 @@
   import { invalidateAll } from "$app/navigation";
   import ErrorState from "$lib/components/ui/ErrorState.svelte";
   import LoadingSpinner from "$lib/components/ui/LoadingSpinner.svelte";
+  import { minutesToHours } from "$lib/utils/games";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
@@ -28,20 +29,6 @@
     loading = true;
     await invalidateAll();
     loading = false;
-  }
-
-  function minutesToHours(minutes: number): string {
-    const h = Math.floor(minutes / 60);
-    const m = minutes % 60;
-    return h > 0 ? `${h}h ${m}min` : `${m}min`;
-  }
-
-  function formatTimestamp(unix: number): string {
-    return new Date(unix * 1000).toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
   }
 </script>
 
@@ -99,7 +86,7 @@
           {#if owned.rtime_last_played}
             <div>
               <p class="text-lg font-bold text-accent">
-                {formatTimestamp(owned.rtime_last_played)}
+                {minutesToHours(owned.rtime_last_played)}
               </p>
               <p class="text-xs text-muted mt-1">Última vez jogado</p>
             </div>
@@ -268,7 +255,7 @@
                 <p class="text-sm font-semibold truncate">{ach.apiname}</p>
                 {#if ach.achieved && ach.unlocktime}
                   <p class="text-xs text-muted">
-                    {formatTimestamp(ach.unlocktime)}
+                    {minutesToHours(ach.unlocktime)}
                   </p>
                 {/if}
               </div>
@@ -279,7 +266,7 @@
     {/if}
 
     <!-- Highlighted achievements (from store) -->
-    {#if game.achievements?.highlighted?.length > 0}
+    {#if game.achievements?.highlighted?.length && game.achievements?.highlighted?.length > 0}
       <div>
         <h2 class="text-xl font-bold mb-3">Conquistas em Destaque</h2>
         <div class="flex flex-wrap gap-4">

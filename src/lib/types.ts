@@ -60,7 +60,7 @@ export interface OwnedGamesResponse {
   };
 }
 
-type OwnedGame = {
+export type OwnedGame = {
   appid: number;
   name: string;
   playtime_forever: number;

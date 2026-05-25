@@ -40,7 +40,9 @@ const ownedGames = [
   },
 ];
 
-function renderGamesPage(data: PageData = { ownedGames, error: null }) {
+function renderGamesPage(
+  data: PageData = { sortedGamesList: ownedGames, error: null },
+) {
   const props: PageProps = {
     data,
     form: null,
@@ -76,7 +78,7 @@ describe("/games page", () => {
   });
 
   it("shows an empty state when the library is empty", () => {
-    renderGamesPage({ ownedGames: [], error: null });
+    renderGamesPage({ sortedGamesList: [], error: null });
 
     expect(
       screen.getByText("Nenhum jogo encontrado na sua biblioteca."),
@@ -95,13 +97,15 @@ describe("/games page", () => {
 
   it("shows an error state with a retry button", () => {
     renderGamesPage({
-      ownedGames: [],
+      sortedGamesList: [],
       error: "Nao foi possivel carregar seus jogos.",
     });
 
     expect(
       screen.getByText("Nao foi possivel carregar seus jogos."),
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /tentar novamente/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /tentar novamente/i }),
+    ).toBeInTheDocument();
   });
 });

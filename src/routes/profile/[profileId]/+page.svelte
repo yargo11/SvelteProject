@@ -47,7 +47,10 @@
   {:else if data.error}
     <ErrorState message={data.error} onRetry={retry} />
   {:else if !player}
-    <EmptyState message="Perfil não encontrado. Verifique o SteamID." icon="👤" />
+    <EmptyState
+      message="Perfil não encontrado. Verifique o SteamID."
+      icon="👤"
+    />
   {:else}
     <div class="flex flex-col gap-3 p-6 bg-surface rounded-xl">
       <img
@@ -61,16 +64,25 @@
         <h2 class="text-xl font-bold">{player.personaname}</h2>
         <a href={player.profileurl} target="_blank">🕹️</a>
       </div>
-      <p>Ultima vez online: {new Date(player.lastlogoff * 1000).toLocaleString()}</p>
-      <p>Ingressou em: {new Date(player.timecreated * 1000).toLocaleString()}</p>
+      <p>
+        Ultima vez online: {new Date(player.lastlogoff * 1000).toLocaleString()}
+      </p>
+      <p>
+        Ingressou em: {new Date(player.timecreated * 1000).toLocaleString()}
+      </p>
     </div>
 
-    {#if data.ownedGames.length === 0}
-      <EmptyState message="Nenhum jogo encontrado na biblioteca deste perfil." icon="🎮" />
+    {#if data.sortedGamesList.length === 0}
+      <EmptyState
+        message="Nenhum jogo encontrado na biblioteca deste perfil."
+        icon="🎮"
+      />
     {:else}
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {#each data.ownedGames as game}
-          <div class="flex flex-row items-center gap-2 p-4 border border-border rounded bg-surface">
+        {#each data.sortedGamesList as game}
+          <div
+            class="flex flex-row items-center gap-2 p-4 border border-border rounded bg-surface"
+          >
             <img
               src={`${url_img}${game.appid}/${game.img_icon_url}.jpg`}
               alt={game.name}

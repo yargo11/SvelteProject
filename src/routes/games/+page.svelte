@@ -12,7 +12,7 @@
   let loading = $state(false);
 
   const filteredGames = $derived(
-    data.ownedGames.filter((g) =>
+    data.sortedGamesList.filter((g) =>
       g.name.toLowerCase().includes(gameFilter.toLowerCase()),
     ),
   );
@@ -37,7 +37,7 @@
     <LoadingSpinner />
   {:else if data.error}
     <ErrorState message={data.error} onRetry={retry} />
-  {:else if data.ownedGames.length === 0}
+  {:else if data.sortedGamesList.length === 0}
     <EmptyState message="Nenhum jogo encontrado na sua biblioteca." icon="🎮" />
   {:else if filteredGames.length === 0}
     <EmptyState message="Nenhum jogo corresponde à pesquisa." icon="🔍" />
@@ -45,7 +45,9 @@
     <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
       {#each filteredGames as game}
         <a href="/games/{game.appid}">
-          <div class="rounded-lg bg-surface border border-border text-foreground w-fit hover:border-primary/40 transition-colors">
+          <div
+            class="rounded-lg bg-surface border border-border text-foreground w-fit hover:border-primary/40 transition-colors"
+          >
             <img
               src={`${GAME_COVER}${game.appid}/header.jpg`}
               alt={game.name}
