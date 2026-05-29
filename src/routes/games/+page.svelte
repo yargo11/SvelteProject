@@ -1,9 +1,10 @@
 <script lang="ts">
   import { invalidateAll } from "$app/navigation";
+  import CustomInput from "$lib/components/ui/CustomInput.svelte";
   import EmptyState from "$lib/components/ui/EmptyState.svelte";
   import ErrorState from "$lib/components/ui/ErrorState.svelte";
+  import GameCard from "$lib/components/ui/GameCard.svelte";
   import LoadingSpinner from "$lib/components/ui/LoadingSpinner.svelte";
-  import { GAME_COVER } from "$lib/endpoints";
   import type { PageProps } from "./$types";
 
   let { data }: PageProps = $props();
@@ -26,11 +27,7 @@
 
 <div>
   <div class="w-full mb-4">
-    <input
-      class="bg-surface border border-border rounded-lg w-full h-10 px-4 text-foreground placeholder:text-muted focus:outline-none focus:border-primary transition-colors"
-      placeholder="🔍 Pesquisar jogo..."
-      bind:value={gameFilter}
-    />
+    <CustomInput placeholder="Pesquisar jogo..." bind:value={gameFilter} />
   </div>
 
   {#if loading}
@@ -44,22 +41,7 @@
   {:else}
     <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
       {#each filteredGames as game}
-        <a href="/games/{game.appid}">
-          <div
-            class="rounded-lg bg-surface border border-border text-foreground w-fit hover:border-primary/40 transition-colors"
-          >
-            <img
-              src={`${GAME_COVER}${game.appid}/header.jpg`}
-              alt={game.name}
-              class="rounded-t-lg"
-            />
-            <div class="p-4">
-              <p class="text-sm font-semibold text-foreground">
-                {game.name.slice(0, 30)}{game.name.length > 30 ? "..." : ""}
-              </p>
-            </div>
-          </div>
-        </a>
+        <GameCard data={{ game }} />
       {/each}
     </div>
   {/if}
